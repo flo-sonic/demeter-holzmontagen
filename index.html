@@ -257,7 +257,11 @@
           </div>
         </div>
         <div class="contact-form-wrap" data-animate>
-          <form class="contact-form" id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+          <form class="contact-form" id="contactForm" action="https://api.web3forms.com/submit" method="POST">
+            <input type="hidden" name="access_key" value="6c827ec6-13a4-4be9-8586-7a49bbba037a">
+            <input type="hidden" name="subject" value="Neue Anfrage über demeter-holzmontagen.de">
+            <input type="hidden" name="from_name" value="Demeter Holzmontagen Website">
+            <input type="checkbox" name="botcheck" style="display:none">
             <h3>Anfrage senden</h3>
             <div class="form-group">
               <label for="name">Name *</label>
@@ -268,19 +272,17 @@
               <input type="email" id="email" name="email" required placeholder="ihre@email.de">
             </div>
             <div class="form-group">
-              <label for="phone">Telefon</label>
-              <input type="tel" id="phone" name="phone" placeholder="Ihre Telefonnummer">
+              <label for="phone">Telefon *</label>
+              <input type="tel" id="phone" name="phone" required placeholder="Ihre Telefonnummer">
             </div>
             <div class="form-group">
-              <label for="address">Adresse</label>
-              <input type="text" id="address" name="address" placeholder="Straße, PLZ, Ort">
+              <label for="address">Adresse *</label>
+              <input type="text" id="address" name="address" required placeholder="Straße, PLZ, Ort">
             </div>
             <div class="form-group">
               <label for="message">Beschreibung Ihres Auftrags *</label>
               <textarea id="message" name="message" rows="5" required placeholder="Beschreiben Sie kurz, was Sie sich vorstellen..."></textarea>
             </div>
-            <input type="hidden" name="_subject" value="Neue Anfrage über demeter-holzmontagen.de">
-            <input type="text" name="_gotcha" style="display:none">
             <button type="submit" class="btn btn-primary btn-full">
               <span>Anfrage absenden</span>
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 10h12m0 0l-4-4m4 4l-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>

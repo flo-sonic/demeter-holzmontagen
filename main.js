@@ -94,8 +94,9 @@ document.addEventListener('DOMContentLoaded', () => {
         body: new FormData(form),
         headers: { 'Accept': 'application/json' }
       });
+      const data = await response.json();
 
-      if (response.ok) {
+      if (data.success) {
         form.hidden = true;
         formSuccess.hidden = false;
         form.reset();
