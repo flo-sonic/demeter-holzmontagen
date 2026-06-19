@@ -420,6 +420,62 @@ a {
   color: rgba(255, 255, 255, 0.7);
 }
 
+/* ===== Before / After ===== */
+.before-after {
+  margin-top: 64px;
+  text-align: center;
+}
+
+.before-after h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-inv);
+  margin-bottom: 8px;
+}
+
+.before-after-desc {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 32px;
+}
+
+.before-after-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.before-after-item {
+  position: relative;
+  border-radius: var(--radius);
+  overflow: hidden;
+  aspect-ratio: 3/4;
+}
+
+.before-after-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.before-after-label {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 16px;
+  border-radius: 100px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.label-after {
+  background: var(--accent);
+}
+
 /* ===== About ===== */
 .about-grid {
   display: grid;
@@ -839,6 +895,7 @@ a {
   .services-grid { grid-template-columns: 1fr; }
   .gallery { grid-template-columns: 1fr; }
   .gallery-item--wide { grid-column: span 1; }
+  .before-after-grid { grid-template-columns: 1fr; }
   .section { padding: 80px 0; }
   .hero-content { padding: 100px 20px 60px; }
   .contact-form-wrap { padding: 28px 20px; }
