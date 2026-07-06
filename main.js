@@ -10,13 +10,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const toggle = document.getElementById('navToggle');
   const links = document.getElementById('navLinks');
   toggle.addEventListener('click', () => {
-    links.classList.toggle('open');
-    toggle.classList.toggle('active');
+    const open = links.classList.toggle('open');
+    toggle.classList.toggle('active', open);
+    document.body.classList.toggle('menu-open', open);
+    toggle.setAttribute('aria-expanded', open);
   });
   links.querySelectorAll('a').forEach(a => {
     a.addEventListener('click', () => {
       links.classList.remove('open');
       toggle.classList.remove('active');
+      document.body.classList.remove('menu-open');
+      toggle.setAttribute('aria-expanded', 'false');
     });
   });
 
@@ -65,6 +69,18 @@ document.addEventListener('DOMContentLoaded', () => {
     lightboxImg.src = galleryItems[currentIndex].src;
   });
 
+  // Wischgesten für Touch-Geräte
+  let touchStartX = 0;
+  lightbox.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].clientX;
+  }, { passive: true });
+  lightbox.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) < 50) return;
+    if (dx > 0) document.querySelector('.lightbox-prev').click();
+    else document.querySelector('.lightbox-next').click();
+  }, { passive: true });
+
   document.addEventListener('keydown', (e) => {
     if (lightbox.hidden) return;
     if (e.key === 'Escape') closeLightbox();
@@ -80,6 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Contact form
   const form = document.getElementById('contactForm');
   const formSuccess = document.getElementById('formSuccess');
+  const formError = document.getElementById('formError');
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -87,6 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const originalText = btn.innerHTML;
     btn.innerHTML = '<span>Wird gesendet...</span>';
     btn.disabled = true;
+    formError.hidden = true;
 
     try {
       const response = await fetch(form.action, {
@@ -106,14 +124,20 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch {
       btn.innerHTML = originalText;
       btn.disabled = false;
-      alert('Beim Senden ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut oder kontaktieren Sie mich direkt per Telefon.');
+      formError.hidden = false;
     }
   });
 
   // Smooth scroll offset for fixed nav
   document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', (e) => {
-      const target = document.querySelector(anchor.getAttribute('href'));
+      const href = anchor.getAttribute('href');
+      if (href === '#') {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        return;
+      }
+      const target = document.querySelector(href);
       if (!target) return;
       e.preventDefault();
       const offset = 72;
