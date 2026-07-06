@@ -1,7 +1,7 @@
 /* ===== Local Fonts ===== */
 @font-face { font-family: 'Inter'; font-style: normal; font-weight: 300; font-display: swap; src: url('fonts/inter-300.woff2') format('woff2'); }
 @font-face { font-family: 'Inter'; font-style: normal; font-weight: 400; font-display: swap; src: url('fonts/inter.woff2') format('woff2'); }
-@font-face { font-family: 'Inter'; font-style: normal; font-weight: 500; font-display: swap; src: url('fonts/inter.woff2') format('woff2'); }
+@font-face { font-family: 'Inter'; font-style: normal; font-weight: 500; font-display: swap; src: url('fonts/inter-500.woff2') format('woff2'); }
 @font-face { font-family: 'Inter'; font-style: normal; font-weight: 600; font-display: swap; src: url('fonts/inter-600.woff2') format('woff2'); }
 @font-face { font-family: 'Inter'; font-style: normal; font-weight: 700; font-display: swap; src: url('fonts/inter-700.woff2') format('woff2'); }
 
@@ -171,6 +171,7 @@ a {
 .hero {
   position: relative;
   min-height: 100vh;
+  min-height: 100svh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -421,6 +422,14 @@ a {
   transform: translateY(0);
 }
 
+/* Touch-Geräte haben kein Hover: Bildunterschriften immer anzeigen */
+@media (hover: none) {
+  .gallery-caption {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .gallery-caption h4 {
   font-size: 1rem;
   font-weight: 600;
@@ -634,7 +643,7 @@ a {
   width: 100%;
   padding: 12px 16px;
   font-family: var(--font);
-  font-size: 0.95rem;
+  font-size: 1rem; /* mind. 16px, sonst zoomt iOS beim Fokussieren */
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   background: var(--bg);
@@ -660,6 +669,17 @@ a {
   text-align: center;
   font-size: 0.8rem;
   color: var(--text-light);
+  margin-top: 12px;
+}
+
+.form-error {
+  text-align: center;
+  font-size: 0.85rem;
+  color: #b3261e;
+  background: #fdecea;
+  border: 1px solid #f5c6c2;
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
   margin-top: 12px;
 }
 
@@ -828,6 +848,12 @@ a {
 }
 
 /* ===== Legal Pages ===== */
+.nav-back {
+  padding: 10px 24px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
 .legal-page {
   padding: 120px 0 80px;
   min-height: calc(100vh - 160px);
@@ -877,27 +903,28 @@ a {
 
 .legal-page a:hover { color: var(--accent-light); }
 
-/* ===== Responsive ===== */
-@media (max-width: 968px) {
-  .services-grid { grid-template-columns: repeat(2, 1fr); }
-  .about-grid { grid-template-columns: 1fr; gap: 48px; }
-  .about-image { max-width: 400px; }
-  .contact-grid { grid-template-columns: 1fr; gap: 48px; }
-  .gallery { grid-template-columns: 1fr 1fr; }
-  .footer-inner { flex-direction: column; gap: 32px; }
-  .footer-contact { align-items: flex-start; }
-  .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+/* ===== Reduzierte Bewegung ===== */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero-scroll { animation: none; }
+  [data-animate] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
 }
 
-@media (max-width: 640px) {
+/* ===== Responsive ===== */
+@media (max-width: 968px) {
   .nav-toggle { display: flex; }
 
   .nav-links {
-    position: fixed;
+    position: absolute;
     top: 72px;
     left: 0;
     right: 0;
-    bottom: 0;
+    height: calc(100vh - 72px);
+    height: calc(100dvh - 72px);
     background: var(--bg);
     flex-direction: column;
     align-items: center;
@@ -914,6 +941,30 @@ a {
   }
 
   .nav-links a { font-size: 1.2rem; }
+
+  body.menu-open { overflow: hidden; }
+
+  .nav-toggle.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.active span:nth-child(2) { opacity: 0; }
+  .nav-toggle.active span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .about-grid { grid-template-columns: 1fr; gap: 48px; }
+  .about-image { max-width: 400px; }
+  .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+  .gallery { grid-template-columns: 1fr 1fr; }
+  .footer-inner { flex-direction: column; gap: 32px; }
+  .footer-contact { align-items: flex-start; }
+  .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+}
+
+@media (max-width: 640px) {
+  .nav--legal .nav-logo-text { display: none; }
+  .nav--legal .nav-back {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
 
   .services-grid { grid-template-columns: 1fr; }
   .gallery { grid-template-columns: 1fr; }
